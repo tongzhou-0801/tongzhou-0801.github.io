@@ -7,11 +7,11 @@ header-img: "img/post-bg-2015.jpg"
 catalog: true
 mathjax: true
 tags:
-    - 网络
+    - 计算机网络
 ---
 # 3.1数据链路层的功能
 - 为防止在传输过程中帧丢失，在可靠的数据链路层协议中，发送方对发送的每个数据帧设计一个计时器，当计时器到期而该帧的确认帧仍未到达时，发送方将重发该帧。为保证接收方不会接收到重复帧，需要对每个发送的帧进行编号:海明码和循环冗余检验码都用于差错控制。
-- 对于信道比较可靠且对实时性要求高的网络，数据链路层采用无确认的无连接服务比较合适<br>![img1](../_resources/image.png)
+- 对于信道比较可靠且对实时性要求高的网络，数据链路层采用无确认的无连接服务比较合适<br>![img1](../img/in-post/image.png)
 - 数据链路层的标准协议有[HDLC,PPP,SLIP](https://www.doubao.com/thread/a3ab0b18fdb08)(ICMP是网络层协议)
 # 3.2组帧
 - **字符计数法**是指在帧首部使用一个计数字段来记录该帧所含的字节数(包括计数字段自身所占用的1个字节)<br>
@@ -36,8 +36,8 @@ tags:
 - **ARQ**（Automatic Repeat reQuest，即自动重传请求协议）分为三种：<br>**停止等待协议**（SW,Stop-and-Wait）：发送一个数据帧，接收一个确认帧；<br>**后退N帧（Go-Back-N）**:发送N个数据帧，接受一个确认帧；<br>**选择重传（Selective repeat）**:发送多个数据帧，接受多个数据帧，对每一个数据帧进行确认，此外对于出错的数据帧接收方还会发送NAK否定帧<br>这三分协议都依赖确认和超时重传(发送一个数据帧启动一个计时器，在规定时间内没有收到确认帧就重传)两种机制<br>
   >后两个还要满足两个条件：<br>
   >1.发送窗口$\ge$接受窗口（要不接受窗口永远填不满）<br>2.发送窗口+接受窗口$\le2^{n}$(n:帧编号的比特数)（因为帧编号是重复利用的，如果大于该值就会出现帧编号重复的数据帧）<br>eg:若发送窗口的大小为32，则至少需要6bit序列号协议才不会出错
-- <br>![alt text](../_resources/image%20copy.png)<br>发送方发送012345670123，先发送了012345，接收方也接受到了012345，然后发送确认帧5，期待接受670，**但是**这时候网络不好，发送方没有收到确认帧，然后决定超时重传012345，坏处来了，这个0和接收方想要的0不是一个0
-- <br>![alt text](../_resources/Snipaste_2024-11-16_10-06-05.png)<br>![alt text](../_resources/Snipaste_2024-11-16_10-10-21.png)<br>Tips：算数据传输速率的时候可以直接把分子列为每帧中的数据长度
+- <br>![alt text](../img/in-post/image%20copy.png)<br>发送方发送012345670123，先发送了012345，接收方也接受到了012345，然后发送确认帧5，期待接受670，**但是**这时候网络不好，发送方没有收到确认帧，然后决定超时重传012345，坏处来了，这个0和接收方想要的0不是一个0
+- <br>![alt text](../img/in-post/Snipaste_2024-11-16_10-06-05.png)<br>![alt text](../img/in-post/Snipaste_2024-11-16_10-10-21.png)<br>Tips：算数据传输速率的时候可以直接把分子列为每帧中的数据长度
 # 3.5介质访问控制
 - **频分复用**（FDM，Frequency Division Multiplexing）:在一条信道上划分多个频带范围，每个频带之间还要有一定的频带隔离范围，防止互相干扰；<br>
  **时分复用**（TDM，Time Division Multiplexing）：把一条信道的传输时间划分时间片，每个用户的数据帧间隔传输；<br>
@@ -45,8 +45,8 @@ tags:
   
   **波分复用**（WDM，wave）：就是光的频分复用；<br>
   **[码分复用](https://www.doubao.com/thread/aea6220d302be)**（CDM，Code Division Multiplexing）：不同的信号采用不同的编码，既共享频率又共享时间
-  >码分复用时,各个站点的码片序列必须两两正交<br>eg:![](../_resources/Snipaste_2024-11-18_16-34-41.png)<br>$\vec{a}\cdot\vec{b}=0,\vec{a}\cdot\vec{c}=0,\vec{b}\cdot\vec{c}=0$<br>
-  通过码分复用恢复出原始信号的实例:<br>![](../_resources/Snipaste_2024-11-18_16-47-14.png)<br>![](../_resources/Snipaste_2024-11-18_16-49-02.png)<br>我不理解为啥通过与原始码片序列做内积运算就可以恢复出结果,死记着算了
+  >码分复用时,各个站点的码片序列必须两两正交<br>eg:![](../img/in-post/Snipaste_2024-11-18_16-34-41.png)<br>$\vec{a}\cdot\vec{b}=0,\vec{a}\cdot\vec{c}=0,\vec{b}\cdot\vec{c}=0$<br>
+  通过码分复用恢复出原始信号的实例:<br>![](../img/in-post/Snipaste_2024-11-18_16-47-14.png)<br>![](../img/in-post/Snipaste_2024-11-18_16-49-02.png)<br>我不理解为啥通过与原始码片序列做内积运算就可以恢复出结果,死记着算了
 - 频分复用适合传输模拟信号，时分复用适合传输数字信号，所以现代网络中时分复用用的更多,[解释](https://www.doubao.com/thread/aafb5e5ce67d8)
 - **随机访问介质访问控制协议**(好拗口):<br>
   1. **ALOHA协议**:<br>
@@ -58,7 +58,7 @@ tags:
    **p-坚持CSMA**(只适用于TDM信道):一直监听信道,信道空闲等待以概率p发送数据,1-p的概率在下一个时间段发送数据<br>
   3. **CSMA/CD协议**(Carrier Sense Multiple Access with Collision Detection，载波监听多路访问/碰撞检测):先听后发，边听边发，冲突停发，随机重发;<br>CSMA/CD 协议中定义的**争用期**是指信号在最远两个端点之间往返传输的时间。
      >10Mb/s和100Mb/s的以太网中的争用期被定义为64B的发送时间([解释](https://www.doubao.com/thread/ab717a81b1383))
-     >>eg:![](../_resources/Snipaste_2024-11-18_16-15-37.png)<br>一个站点到hub是100米,两个站点之间是200米,一来一回400米;
+     >>eg:![](../img/in-post/Snipaste_2024-11-18_16-15-37.png)<br>一个站点到hub是100米,两个站点之间是200米,一来一回400米;
   4. [**CSMA/CA协议**](https://www.doubao.com/thread/a750759450bf3)(Carrier Sense Multiple Access with Collision Avoidance载波监听多路访问/碰撞避免):先监听信道,等到信道空闲的时候设置一个随机退避值(期间如何信道再忙起来就暂停计时),退避时间结束站点发送数据 ,接受方收到数据后发送ACK确认帧,接收方没有收到确认帧的话就按照上述规则再重发一遍;
 - **情景假设**:设备A想向设备B发送数据<br>
   >设备A首先向设备B发送RTS(Request To Send)帧表示请求发送数据;<br>
@@ -72,13 +72,13 @@ tags:
   >DIFS>PIFS>SIFS;
 - **二进制退避算法**:从[0,$2^{k}-1$]里随机选一个数
   >超出10次以外的冲突就不算了,要是算的话,要等到猴年马月去了,也就是说k=min[k,10];
-  >>![alt text](../_resources/Snipaste_2024-11-18_09-25-19.png)
+  >>![alt text](../img/in-post/Snipaste_2024-11-18_09-25-19.png)
 - **令牌环网络**:<br>
-  >![alt text](../_resources/Snipaste_2024-11-18_09-01-37.png)
+  >![alt text](../img/in-post/Snipaste_2024-11-18_09-01-37.png)
   令牌环网络的结点只能在一定时间内(令牌持有时间)发送数据,不能一直持有令牌,并且如果结点没有数据传输时要迅速把令牌传递下去
 - **以太网的最小帧长**是指在争用期这一段时间内发送数据的长度,也就是说,最小帧长是数据填满信道一来一回的长度,第一个bit刚刚回来,最后一个bit刚刚发出
 - 无线局域网不使用 CSMA/CD 而使用 CSMA/CA 的原因是，无线局域网难以实现冲突检测，存在隐蔽站和暴露站问题<br>
-  >![](../_resources/Snipaste_2024-11-18_16-21-50.png)<br>![](../_resources/Snipaste_2024-11-18_16-22-09.png)
+  >![](../img/in-post/Snipaste_2024-11-18_16-21-50.png)<br>![](../img/in-post/Snipaste_2024-11-18_16-22-09.png)
 # 3.6局域网
 
 
